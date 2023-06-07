@@ -170,8 +170,48 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
 
 /**
  * Implements hook_civicrm_tabset().
+ * Ajout script et css
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
-  Civi::log()->debug('test si le fichier est visible');
   Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 15, 'html-header');
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 100);
 }
+
+/**
+ * 
+ */
+function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
+  Civi::log()->debug('test-- '. print_r($objectName,1). ' --id-- ' . $id . ' --params-- ' . $params);
+  
+  if ($objectName == 'Organization' && $op == 'edit') {
+    $phoneNumber = $params['phone'][1]['phone'];
+    dump($phoneNumber, 'before replace');
+    if (strpos($phoneNumber, "+33") === false) {
+      $phoneNumber = str_replace(" ", "", $phoneNumber);
+      dump($phoneNumber, 'replaced');
+      
+      // Enlever le premier chiffre si c'est 0
+      if ($phoneNumber[0] === '0') {
+        $phoneNumber = substr($phoneNumber, 1);
+      }
+      
+      // Grouper les chiffres deux par deux depuis la fin
+      $numeroTelInverse = '';
+      $len = strlen($phoneNumber);
+      for ($i = $len - 1; $i >= 0; $i -= 2) {
+          $group = $phoneNumber[$i];
+          if ($i - 1 >= 0) {
+              $group = $phoneNumber[$i - 1] . $group;
+          }
+          $numeroTelInverse = $group . ' ' . $numeroTelInverse;
+      }
+
+      // Ajouter "+33 " au début
+      $numeroTelInverse = "+33 " . $numeroTelInverse;
+      $params['phone'][1]['phone'] = $numeroTelInverse;
+    } else {
+        echo "La chaîne ne contient pas '+33'";
+    }
+  }
+}
+
