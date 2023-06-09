@@ -174,7 +174,16 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
   Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 15, 'html-header');
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 100);
+  //  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/css/intlTelInput.css', 15, 'html-header');
+  
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
+ /* Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.min.js', 100);
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.js', 100);
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.min.js', 100);
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.js', 100);
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.min.js', 100); */
 }
 
 /**
@@ -185,10 +194,17 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
   
   if ($objectName == 'Organization' && $op == 'edit') {
     $phoneNumber = $params['phone'][1]['phone'];
-    dump($phoneNumber, 'before replace');
-    if (strpos($phoneNumber, "+33") === false) {
+
+
+    //todo migrate to Utils
+    $current_phone = \Civi\Api4\Phone::get(FALSE)
+      ->addSelect('phone')
+      ->addWhere('contact_id', '=', 1662)
+      ->execute()->first()['phone'];
+
+    
+    if (strpos($phoneNumber, "+") === false) {//
       $phoneNumber = str_replace(" ", "", $phoneNumber);
-      dump($phoneNumber, 'replaced');
       
       // Enlever le premier chiffre si c'est 0
       if ($phoneNumber[0] === '0') {
@@ -209,8 +225,9 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
       // Ajouter "+33 " au début
       $numeroTelInverse = "+33 " . $numeroTelInverse;
       $params['phone'][1]['phone'] = $numeroTelInverse;
+      $params['phone'][1]['phone'] = $current_phone;
     } else {
-        echo "La chaîne ne contient pas '+33'";
+      //do nothing...
     }
   }
 }
