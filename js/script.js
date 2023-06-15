@@ -2,17 +2,47 @@
 CRM.$(function($) {
     $(document).ready(function(){
 
+        //Mettre les input de type tél avec le drapeau par defaut
+        let inputs = $(".crm_phone.twelve");
+        inputs.each(function(el, newInputTel) {
+            let iti = window.intlTelInput(newInputTel, {
+                initialCountry: "fr",
+            });
+        })
+
+        $('body').on('change','.crm_phone.twelve', function() {
+            // jQuery(jQuery('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').split(': ')[1] + ' ';
+            let currPhone = $(this).val();
+            let phoneNumberFollowedByindic = currPhone.replace(/\+\d+\s/g, '+33 ');
+            $(this).val(phoneNumberFollowedByindic)
+            console.log(' change up ', phoneNumberFollowedByindic)
+            phoneMouseLeaveEvent ('+33 ')
+        });
+        
+        //Ajouter d'autres numéros
+        $('#addPhone').on('click', function() {
+            let inputs = $(".crm_phone.twelve");
+            inputs.each(function(el, newInputTel) {
+                let iti = window.intlTelInput(newInputTel, {
+                    initialCountry: "fr",
+                });
+            })
+        })
+
+
         $(window).on('load',function(){
             // if (!window.location.search.includes('action=update')) {//si c'est la page de creation
-            let value = $('.page-civicrm-contact-add [name="phone[1][phone]"]').val();
+            let value = $('.page-civicrm-contact-add .crm_phone.twelve').val();
             var indicatif = '+33 ';
-            let fieldPhone = $('.page-civicrm-contact-add [name="phone[1][phone]"]');
+            let fieldPhone = $('.page-civicrm-contact-add .crm_phone.twelve');
             if (!value) {
                 indicatif = fieldPhone.on('change', function (id, el) {
-                    jQuery(jQuery('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').split(': ')[1] + ' ';
-                    let currPhone = fieldPhone.val();
+                    jQuery(jQuery(this).parents('#Phone_Block_1').find('.iti__selected-flag')[4]).attr('title')
+.split(': ')[1] + ' ';
+                    let currPhone = $(this).val();
                     let phoneNumberFollowedByindic = currPhone.replace(/\+\d+\s/g, indicatif);
-                    fieldPhone.val(phoneNumberFollowedByindic)
+                    console.log(' onload ', phoneNumberFollowedByindic)
+                    $(this).val(phoneNumberFollowedByindic)
                 });
 
                 phoneMouseLeaveEvent (indicatif)
@@ -21,19 +51,21 @@ CRM.$(function($) {
 
                 phoneMouseLeaveEvent(indicatif)
                 console.log('else empty value...')
-                let phoneVal = $('.page-civicrm-contact-add [name="phone[1][phone]"]').val();
-                phoneVal = phoneVal.replace('+33 ', '0');
-                $('.page-civicrm-contact-add [name="phone[1][phone]"]').val(phoneVal)
+                // let phoneVal = $('.page-civicrm-contact-add .crm_phone.twelve').val();
+                // phoneVal = phoneVal.replace('+33 ', '0');
+                // jQuery(this).attr('data-indicatif', indicatif);
+               // $('.page-civicrm-contact-add .crm_phone.twelve').val(phoneVal)
+               $('.page-civicrm-contact-add .crm_phone.twelve').css('text-indent', '-23px');// Generique pour l'instant à modifier suivant l'indicatifi après
             } 
         })
     })
 
-    jQuery('#contact-summary .crm-content.crm-contact_phone').text(jQuery('#contact-summary .crm-content.crm-contact_phone').text().replace(/\+\d+\s/g, ''));
+    // jQuery('#contact-summary .crm-content.crm-contact_phone').text(jQuery('#contact-summary .crm-content.crm-contact_phone').text().replace(/\+\d+\s/g, ''));
 
 });
 
 function replaceIndicatif (indicatif) {
-    let fieldPhone = jQuery('.page-civicrm-contact-add [name="phone[1][phone]"]')
+    let fieldPhone = jQuery('.page-civicrm-contact-add .crm_phone.twelve')
     let currPhone = fieldPhone.val();
     let phoneNumberFollowedByindic = currPhone.replace(/\+\d+\s/g, indicatif);
     fieldPhone.val(phoneNumberFollowedByindic)
@@ -54,7 +86,11 @@ function formatTwoByTwo (phoneNumber) {
     phoneNumber = phoneNumber.split("").reverse().join("");
 
     // Add a blank space every two characters
+    console.log(phoneNumber, ' before')
+    // phoneNumber = phoneNumber.trimEnd();
     phoneNumber = phoneNumber.replace(/(\d{2})(?=\d)/g, "$1 ");
+    phoneNumber = phoneNumber.trimEnd();
+    // console.log(phoneNumber, ' after')
 
     // Reverse the phone number back to its original order
     phoneNumber = phoneNumber.split("").reverse().join("");
@@ -63,11 +99,11 @@ function formatTwoByTwo (phoneNumber) {
 }
 
 function phoneMouseLeaveEvent (indic) {
-    let fieldPhone = jQuery('.page-civicrm-contact-add [name="phone[1][phone]"]');
-    let isUpdate = window.location.search.includes('action=update');
+    let fieldPhone = jQuery('.page-civicrm-contact-add .crm_phone.twelve');
+    // let isUpdate = window.location.search.includes('action=update');
     fieldPhone.on('focusout', function (id, el) {
-        let phoneNumber = jQuery('.page-civicrm-contact-add [name="phone[1][phone]"]').val();
-        let flag = jQuery(jQuery('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').includes('+33');
+        let phoneNumber = jQuery(this).val();
+        // let flag = jQuery(jQuery('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').includes('+33');
         if (phoneNumber) {
                 if (phoneNumber.startsWith('+33')) {
                     phoneNumber = phoneNumber.replace('+33', '');
@@ -75,20 +111,23 @@ function phoneMouseLeaveEvent (indic) {
                 if (phoneNumber.startsWith('33')) {
                     phoneNumber = phoneNumber.replace('33', '');
                 }
+                jQuery(this).attr('data-indicatif', indic);
                 
                 // Reverse the phone number
                 phoneNumber = formatTwoByTwo(phoneNumber);
                 
                 // Remove leading "0" if present
-                if (phoneNumber.startsWith("0") && !isUpdate) {
-                    phoneNumber = phoneNumber.substr(1);
+                if (phoneNumber.startsWith("0")) {
+                   // phoneNumber = phoneNumber.substr(1);
                 }
                 
                 if (phoneNumber.startsWith("3 3")) {
                     phoneNumber = phoneNumber.replace("3 3", "+33 ")
                 } else {
-                    if ( !phoneNumber.match(/\+\d+\s/)) {
-                        phoneNumber = jQuery(jQuery('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').split(': ')[1] + ' ' + phoneNumber;
+                    if ( !phoneNumber.match(/\+\d+\s/)) {7
+                        let fieldTelNumber = jQuery(this).attr('data-intl-tel-input-id');
+                        phoneNumber = jQuery(jQuery(this).parents('body').find('.iti__selected-flag')[fieldTelNumber]).attr('title').split(': ')[1] + ' ' + phoneNumber;
+                        jQuery(this).css('text-indent', '-23px');
                     }
                 }
                 jQuery(this).val(phoneNumber);

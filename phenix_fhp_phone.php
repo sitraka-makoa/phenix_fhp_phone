@@ -173,17 +173,17 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  * Ajout script et css
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
-  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 15, 'html-header');
-  //  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/css/intlTelInput.css', 15, 'html-header');
-  
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
- /* Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.min.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.min.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.min.js', 100); */
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.min.js', 100); 
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
+  
+  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 15, 'html-header');
+  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/css/intlTelInput.min.css', 100000, 'html-header');
 }
 
 /**
@@ -192,20 +192,20 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
 function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
   Civi::log()->debug('test-- '. print_r($objectName,1). ' --id-- ' . $id . ' --params-- ' . $params);
   
-  if ($objectName == 'Organization' && $op == 'edit') {
+   if ($objectName == 'Organization' && $op == 'edit') {
     $phoneNumber = $params['phone'][1]['phone'];
 
 
-    //todo migrate to Utils
+  /*   //todo migrate to Utils
     $current_phone = \Civi\Api4\Phone::get(FALSE)
       ->addSelect('phone')
       ->addWhere('contact_id', '=', 1662)
-      ->execute()->first()['phone'];
-
-    
-    if (strpos($phoneNumber, "+") === false) {//
+      ->execute()->first()['phone']; */
+ 
+    $phoneNumber = removeZeroIfStartWithZero ($phoneNumber);  
+ 
+    if (strpos($phoneNumber, "+") === false) {//Pas encore utile pour l'instant car on a déjà l'idicatif lors de la soumission
       $phoneNumber = str_replace(" ", "", $phoneNumber);
-      
       // Enlever le premier chiffre si c'est 0
       if ($phoneNumber[0] === '0') {
         $phoneNumber = substr($phoneNumber, 1);
@@ -221,14 +221,30 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
           }
           $numeroTelInverse = $group . ' ' . $numeroTelInverse;
       }
-
       // Ajouter "+33 " au début
       $numeroTelInverse = "+33 " . $numeroTelInverse;
       $params['phone'][1]['phone'] = $numeroTelInverse;
-      $params['phone'][1]['phone'] = $current_phone;
-    } else {
+    } else {    // ici c'est fonctionnel (utile)
+      $params['phone'][1]['phone'] = $phoneNumber;
       //do nothing...
     }
+  } 
+}
+
+/**
+ * @return numéro de téléphone
+ * @param numero de télephone
+ * Enleve le prémier 0 si le numéro commence par 0
+ */
+function removeZeroIfStartWithZero ($phoneNumber) {
+  $is_match = preg_match('/\+[0-9]+ /', $phoneNumber, $matched);
+  if ($is_match) {
+    $indicatif = $matched[0];
+    $temp_var = str_replace($indicatif, '', $phoneNumber);
+    $temp_var = preg_replace('/^0/', '', $temp_var);
+    $phoneNumber = $indicatif . $temp_var;
   }
+  
+  return $phoneNumber;
 }
 
