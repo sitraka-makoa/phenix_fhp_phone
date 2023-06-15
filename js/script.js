@@ -16,7 +16,7 @@ CRM.$(function($) {
             let phoneNumberFollowedByindic = currPhone.replace(/\+\d+\s/g, '+33 ');
             $(this).val(phoneNumberFollowedByindic)
             console.log(' change up ', phoneNumberFollowedByindic)
-            phoneMouseLeaveEvent ('+33 ')
+            // phoneMouseLeaveEvent ('+33 ')
         });
         
         //Ajouter d'autres numéros
@@ -35,10 +35,10 @@ CRM.$(function($) {
             let value = $('.page-civicrm-contact-add .crm_phone.twelve').val();
             var indicatif = '+33 ';
             let fieldPhone = $('.page-civicrm-contact-add .crm_phone.twelve');
+            console.log('mis', value)
             if (!value) {
                 indicatif = fieldPhone.on('change', function (id, el) {
-                    jQuery(jQuery(this).parents('#Phone_Block_1').find('.iti__selected-flag')[4]).attr('title')
-.split(': ')[1] + ' ';
+                    jQuery(jQuery(this).parents('#Phone_Block_1').find('.iti__selected-flag')[4]).attr('title').split(': ')[1] + ' ';
                     let currPhone = $(this).val();
                     let phoneNumberFollowedByindic = currPhone.replace(/\+\d+\s/g, indicatif);
                     console.log(' onload ', phoneNumberFollowedByindic)
@@ -57,6 +57,11 @@ CRM.$(function($) {
                // $('.page-civicrm-contact-add .crm_phone.twelve').val(phoneVal)
                $('.page-civicrm-contact-add .crm_phone.twelve').css('text-indent', '-23px');// Generique pour l'instant à modifier suivant l'indicatifi après
             } 
+
+            //Met la valeur par defaut dans la page update
+            jQuery('.crm_phone.twelve').each(function(el,id) {
+                let val = jQuery(id).val(jQuery(id).attr('value'));
+            })
         })
     })
 
