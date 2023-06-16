@@ -192,8 +192,12 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
 function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
   Civi::log()->debug('test-- '. print_r($objectName,1). ' --id-- ' . $id . ' --params-- ' . $params);
   
-   if ($objectName == 'Organization' && $op == 'edit') {
-    $phoneNumber = $params['phone'][1]['phone'];
+  if ($objectName == 'Organization' && $op == 'edit') {
+    
+    $phoneNumber = '';
+    foreach ($params['phone'] as $phone_key => $phone) {
+       $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
+ 
 
 
   /*   //todo migrate to Utils
@@ -202,33 +206,34 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
       ->addWhere('contact_id', '=', 1662)
       ->execute()->first()['phone']; */
  
-    $phoneNumber = removeZeroIfStartWithZero ($phoneNumber);  
+    // $phoneNumber = removeZeroIfStartWithZero ($phoneNumber);  
  
-    if (strpos($phoneNumber, "+") === false) {//Pas encore utile pour l'instant car on a déjà l'idicatif lors de la soumission
-      $phoneNumber = str_replace(" ", "", $phoneNumber);
-      // Enlever le premier chiffre si c'est 0
-      if ($phoneNumber[0] === '0') {
-        $phoneNumber = substr($phoneNumber, 1);
+      if (strpos($phoneNumber, "+") === false) {//Pas encore utile pour l'instant car on a déjà l'idicatif lors de la soumission
+        $phoneNumber = str_replace(" ", "", $phoneNumber);
+        // Enlever le premier chiffre si c'est 0
+        if ($phoneNumber[0] === '0') {
+          $phoneNumber = substr($phoneNumber, 1);
+        }
+        
+        // Grouper les chiffres deux par deux depuis la fin
+        $numeroTelInverse = '';
+        $len = strlen($phoneNumber);
+        for ($i = $len - 1; $i >= 0; $i -= 2) {
+            $group = $phoneNumber[$i];
+            if ($i - 1 >= 0) {
+                $group = $phoneNumber[$i - 1] . $group;
+            }
+            $numeroTelInverse = $group . ' ' . $numeroTelInverse;
+        }
+        // Ajouter "+33 " au début
+        $numeroTelInverse = "+33 " . $numeroTelInverse;
+        $params['phone'][1]['phone'] = $numeroTelInverse;
+      } else {    // ici c'est fonctionnel (utile)
+        $params['phone'][$phone_key]['phone'] = $phoneNumber;
+        //do nothing...
       }
-      
-      // Grouper les chiffres deux par deux depuis la fin
-      $numeroTelInverse = '';
-      $len = strlen($phoneNumber);
-      for ($i = $len - 1; $i >= 0; $i -= 2) {
-          $group = $phoneNumber[$i];
-          if ($i - 1 >= 0) {
-              $group = $phoneNumber[$i - 1] . $group;
-          }
-          $numeroTelInverse = $group . ' ' . $numeroTelInverse;
-      }
-      // Ajouter "+33 " au début
-      $numeroTelInverse = "+33 " . $numeroTelInverse;
-      $params['phone'][1]['phone'] = $numeroTelInverse;
-    } else {    // ici c'est fonctionnel (utile)
-      $params['phone'][1]['phone'] = $phoneNumber;
-      //do nothing...
-    }
-  } 
+    } 
+  }
 }
 
 /**
@@ -248,3 +253,10 @@ function removeZeroIfStartWithZero ($phoneNumber) {
   return $phoneNumber;
 }
 
+
+/**
+ * Sauvegarde des numéro avec l'indicatif
+ */
+function saveNumeroWithIndicactif () {
+
+}

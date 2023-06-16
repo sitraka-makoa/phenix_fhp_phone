@@ -16,7 +16,7 @@ CRM.$(function($) {
             let phoneNumberFollowedByindic = currPhone.replace(/\+\d+\s/g, '+33 ');
             $(this).val(phoneNumberFollowedByindic)
             console.log(' change up ', phoneNumberFollowedByindic)
-            // phoneMouseLeaveEvent ('+33 ')
+             phoneMouseLeaveEvent ('+33 ')
         });
         
         //Ajouter d'autres numéros
@@ -50,17 +50,21 @@ CRM.$(function($) {
             }else {
 
                 phoneMouseLeaveEvent(indicatif)
-                console.log('else empty value...')
-                // let phoneVal = $('.page-civicrm-contact-add .crm_phone.twelve').val();
-                // phoneVal = phoneVal.replace('+33 ', '0');
-                // jQuery(this).attr('data-indicatif', indicatif);
-               // $('.page-civicrm-contact-add .crm_phone.twelve').val(phoneVal)
                $('.page-civicrm-contact-add .crm_phone.twelve').css('text-indent', '-23px');// Generique pour l'instant à modifier suivant l'indicatifi après
             } 
 
             //Met la valeur par defaut dans la page update
             jQuery('.crm_phone.twelve').each(function(el,id) {
-                let val = jQuery(id).val(jQuery(id).attr('value'));
+                let defaultVal = jQuery(id).attr('value');
+
+                const regex = /\+[0-9]+ /;
+                const matched = defaultVal.match(regex);
+                let indicatif = matched[0];
+                console.log(defaultVal,  ' dd');
+                defaultVal = defaultVal.replace(indicatif, 0);
+                defaultVal = defaultVal.replace('00', 0);
+                defaultVal = indicatif + defaultVal;
+                let val = jQuery(id).val(defaultVal);
             })
         })
     })
@@ -91,11 +95,8 @@ function formatTwoByTwo (phoneNumber) {
     phoneNumber = phoneNumber.split("").reverse().join("");
 
     // Add a blank space every two characters
-    console.log(phoneNumber, ' before')
-    // phoneNumber = phoneNumber.trimEnd();
     phoneNumber = phoneNumber.replace(/(\d{2})(?=\d)/g, "$1 ");
     phoneNumber = phoneNumber.trimEnd();
-    // console.log(phoneNumber, ' after')
 
     // Reverse the phone number back to its original order
     phoneNumber = phoneNumber.split("").reverse().join("");
