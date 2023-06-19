@@ -173,13 +173,20 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  * Ajout script et css
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
+  if ($formName == 'CRM_Contact_Form_Contact') {
+    // Créez un champ de type "hidden".
+    $hiddenField = new HTML_QuickForm_hidden('custom_field_for_phone_indicatif_country');
+    $hiddenField->setValue('indicatif_country_value');
+    // Ajoutez le champ "hidden" au formulaire.
+    $form->addElement($hiddenField);
+  }
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.min.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.min.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.min.js', 100); 
+  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
   
   Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 15, 'html-header');
@@ -195,16 +202,10 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
   if ($objectName == 'Organization' && $op == 'edit') {
     
     $phoneNumber = '';
-    foreach ($params['phone'] as $phone_key => $phone) {
+   // unset($params['phone']);
+    /* foreach ($params['phone'] as $phone_key => $phone) {
        $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
  
-
-
-  /*   //todo migrate to Utils
-    $current_phone = \Civi\Api4\Phone::get(FALSE)
-      ->addSelect('phone')
-      ->addWhere('contact_id', '=', 1662)
-      ->execute()->first()['phone']; */
  
     // $phoneNumber = removeZeroIfStartWithZero ($phoneNumber);  
  
@@ -232,7 +233,7 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
         $params['phone'][$phone_key]['phone'] = $phoneNumber;
         //do nothing...
       }
-    } 
+    } */ 
   }
 }
 
@@ -260,3 +261,5 @@ function removeZeroIfStartWithZero ($phoneNumber) {
 function saveNumeroWithIndicactif () {
 
 }
+
+
