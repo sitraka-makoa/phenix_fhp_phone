@@ -13,6 +13,7 @@ CRM.$(function($) {
                 initialCountry: "fr",
             })
             let allNumeros = {0:'+33'};
+            console.log(newInputTel, ' combien de champ')
             if (iti.getSelectedCountryData()) {
                 console.log(el, iti.getSelectedCountryData().dialCode, ' dey')
                 allNumeros[el] = iti.getSelectedCountryData().dialCode
@@ -117,6 +118,22 @@ CRM.$(function($) {
                 }
             })
         }) 
+
+
+
+        //Page de synthese pour formattage numéro
+        jQuery('.crm-summary-row .crm-content.crm-contact_phone').each(function(id, el) {
+            console.log( ' huh')
+            const regex = /\+[0-9]+ /;
+            const matched = $(el).html().match(regex);
+            if (matched) {
+                let indicatif = matched[0];
+                console.log(indicatif, ' test', jQuery(el).html())
+                $(el).html($(el).html().replace(indicatif, '0'));
+            }
+        });
+
+        jQuery('.iti.iti--show-flags .crm_phone.twelve').css('padding-left', '52px');
     })
 
     // jQuery('#contact-summary .crm-content.crm-contact_phone').text(jQuery('#contact-summary .crm-content.crm-contact_phone').text().replace(/\+\d+\s/g, ''));

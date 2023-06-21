@@ -173,6 +173,19 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  * Ajout script et css
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
+  
+  if ($formName == 'CRM_Contact_Form_Inline_Phone') {
+    // CRM_PhenixFhpPhone_Utils::addCustomField($form);
+    if (class_exists('HTML_QuickForm_hidden')) {
+
+      $hiddenField = new HTML_QuickForm_hidden('custom_field_for_phone_indicatif_country');
+      $defalutCountry = codeCountries()[getCivicrmDefaultDomain()];
+      
+      $hiddenField->setValue($defalutCountry);
+      // // Ajoutez le champ "hidden" au formulaire.
+      $form->addElement($hiddenField);
+    }
+  }
   if ($formName == 'CRM_Contact_Form_Contact') {
     // Créez un champ de type "hidden".
     // $form->addElement('text', 'custom_field', 'Custom Field test');
@@ -201,7 +214,7 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
   Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
   
-  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 15, 'html-header');
+  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 1500000, 'html-header');
   Civi::resources()->addStyleFile(E::LONG_NAME, 'css/css/intlTelInput.min.css', 100000, 'html-header');
 }
 
@@ -212,42 +225,36 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
  */
 function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
   
-  if (in_array($objectName, ['Individual', 'Organization']) /* && $op == 'edit' */) {
-    $phoneNumber = '';
-   // unset($params['phone']);
-   $indicatif = $params['custom_field_for_phone_indicatif_country'];
-   $indicatif = json_decode($indicatif);
-     foreach ($params['phone'] as $phone_key => $phone) {
-       $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
-    // $phoneNumber = removeZeroIfStartWithZero ($phoneNumber);  
- 
-      /* if (strpos($phoneNumber, "+") === false) {//Pas encore utile pour l'instant car on a déjà l'idicatif lors de la soumission
-        $phoneNumber = str_replace(" ", "", $phoneNumber);
-        // Enlever le premier chiffre si c'est 0
-        if ($phoneNumber[0] === '0') {
-          $phoneNumber = substr($phoneNumber, 1);
-        }
-        
-        // Grouper les chiffres deux par deux depuis la fin
-        $numeroTelInverse = '';
-        $len = strlen($phoneNumber);
-        for ($i = $len - 1; $i >= 0; $i -= 2) {
-            $group = $phoneNumber[$i];
-            if ($i - 1 >= 0) {
-                $group = $phoneNumber[$i - 1] . $group;
-            }
-            $numeroTelInverse = $group . ' ' . $numeroTelInverse;
-        }
-        // Ajouter "+33 " au début
-        $numeroTelInverse = "+33 " . $numeroTelInverse;
-        $params['phone'][1]['phone'] = $numeroTelInverse;
-      } else {    // ici c'est fonctionnel (utile)
-        $params['phone'][$phone_key]['phone'] = $phoneNumber;
-        //do nothing...
-      } */
+  //Page de synthèse
+  /* if ($objectName == 'Phone') {
+    
+  } */
 
-      $current_indicatif = $phone_key - 1;
-      $params['phone'][$phone_key]['phone'] = '+' . $indicatif->$current_indicatif . ' ' . $phoneNumber;
+  //Page d'ajout et de modification
+  if (in_array($objectName, ['Individual', 'Organization', 'Phone']) /* && $op == 'edit' */) {
+    $phoneNumber = '';
+    $indicatif = $params['custom_field_for_phone_indicatif_country'];
+    $indicatif = json_decode($indicatif);
+    
+    if (is_array($params['phone']) && sizeof($params['phone']) > 1)  { 
+      foreach ($params['phone'] as $phone_key => $phone) {
+        $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
+        $current_indicatif = $phone_key - 1;
+        $params['phone'][$phone_key]['phone'] = '+' . $indicatif->$current_indicatif . ' ' . $phoneNumber;
+      }
+    }else {
+      $phone = $params['phone'][1];
+      if (isset($phone['phone'])) {
+
+        $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
+        $current_indicatif = "0";
+        // dump($params['phone'][1]['phone'], '+' . $indicatif->current_indicatif . ' ' . $phoneNumber);die;
+        if (isset($params['phone'][1]['phone'])) {
+          // dump($indicatif, $phoneNumber, '+' , $indicatif->current_indicatif . ' ' . $phoneNumber, ' is v ',  $indicatif->current_indicatif, ' check');
+          $params['phone'][1]['phone'] = '+' .  reset($indicatif) . ' ' . $phoneNumber;
+        }
+      }
+      // dump($params['phone'][1]['phone'], '+' . $indicatif->current_indicatif . ' ' . $phoneNumber);die;
     }
   }
 }

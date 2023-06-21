@@ -5,3 +5,9 @@
 .CRM_Contact_Form_Inline_Address [for="address_1_custom_120_2371"], .contactCardLeft #address_custom_11_1 .crm-label, #Address_Block_1 [for="address_1_custom_120_2371"] {
     display: none;
 }
+
+body .crm-inline-edit-form .iti__flag-container .crm_phone.twelve {
+    padding-right: 6px !important;
+    padding-left: 52px !important;
+    margin-left: 0;
+}
