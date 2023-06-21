@@ -12,7 +12,7 @@ static public function addCustomField (&$form) {
   if (class_exists('HTML_QuickForm_hidden')) {
 
     $hiddenField = new HTML_QuickForm_hidden('custom_field_for_phone_indicatif_country');
-    $defalutCountry = self::codeCountries()[getCivicrmDefaultDomain()];
+    $defalutCountry = self::codeCountries()[self::getCivicrmDefaultDomain()];
     
     $hiddenField->setValue($defalutCountry);
     // // Ajoutez le champ "hidden" au formulaire.
@@ -21,6 +21,43 @@ static public function addCustomField (&$form) {
 
   return $form;
 
+}
+
+
+/**
+ * Recupere la langue par defaut de civicrm (domain) s'il n'y a pas par defaut c'est fr
+ */
+static public function getCivicrmDefaultDomain () {
+  $domains = \Civi\Api4\Domain::get(FALSE)
+  ->addSelect('locale_custom_strings')
+  ->execute();
+
+  foreach ($domains as $domain) {
+    if ($domain['locale_custom_strings']) {
+      $defaultDomain = end(array_keys($domain['locale_custom_strings']));
+      $defaultDomain = explode('_', $defaultDomain)[0];
+      return $defaultDomain;
+    }  
+  }
+
+  return 'fr';
+
+}
+
+/**
+ * @return numéro de téléphone
+ * @param numero de télephone
+ * Enleve le prémier 0 si le numéro commence par 0
+ */
+static public function removeZeroIfStartWithZero ($phoneNumber) {
+  // $is_match = preg_match('/\[0-9 ]+ /', $phoneNumber, $matched);
+  $is_match = preg_match(' /^0/', $phoneNumber, $matched);
+  
+  if ($is_match) {
+    $phoneNumber = preg_replace('/^0/', '', $phoneNumber);
+  }
+  
+  return $phoneNumber;
 }
 
 /**

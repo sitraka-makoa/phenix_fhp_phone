@@ -174,25 +174,8 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
   
-  if ($formName == 'CRM_Contact_Form_Inline_Phone') {
+  if (in_array($formName, ['CRM_Contact_Form_Inline_Phone', 'CRM_Contact_Form_Contact'])) {
     CRM_PhenixFhpPhone_Utils::addCustomField($form);
-  }
-  if ($formName == 'CRM_Contact_Form_Contact') {
-    // Créez un champ de type "hidden".
-    // $form->addElement('text', 'custom_field', 'Custom Field test');
-    if (class_exists('HTML_QuickForm_hidden')) {
-
-      $hiddenField = new HTML_QuickForm_hidden('custom_field_for_phone_indicatif_country');
-      $defalutCountry = CRM_PhenixFhpPhone_Utils::codeCountries()[getCivicrmDefaultDomain()];
-      
-      $hiddenField->setValue($defalutCountry);
-      // // Ajoutez le champ "hidden" au formulaire.
-      $form->addElement($hiddenField);
-    }
-
-
-    // Add the custom field to the form
-
   }
 
 
@@ -224,14 +207,14 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
     
     if (is_array($params['phone']) && sizeof($params['phone']) > 1)  { 
       foreach ($params['phone'] as $phone_key => $phone) {
-        $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
+        $phoneNumber = CRM_PhenixFhpPhone_Utils::removeZeroIfStartWithZero ($phone['phone']);
         $current_indicatif = $phone_key - 1;
         $params['phone'][$phone_key]['phone'] = '+' . $indicatif->$current_indicatif . ' ' . $phoneNumber;
       }
     }else {
       $phone = $params['phone'][1];
       if (isset($phone['phone'])) {
-        $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
+        $phoneNumber = CRM_PhenixFhpPhone_Utils::removeZeroIfStartWithZero ($phone['phone']);
         $current_indicatif = "0";
         if (isset($params['phone'][1]['phone'])) {
           $params['phone'][1]['phone'] = '+' .  reset($indicatif) . ' ' . $phoneNumber;
@@ -239,49 +222,4 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
       }
     }
   }
-}
-
-/**
- * @return numéro de téléphone
- * @param numero de télephone
- * Enleve le prémier 0 si le numéro commence par 0
- */
-function removeZeroIfStartWithZero ($phoneNumber) {
-  // $is_match = preg_match('/\[0-9 ]+ /', $phoneNumber, $matched);
-  $is_match = preg_match(' /^0/', $phoneNumber, $matched);
-  
-  if ($is_match) {
-    $phoneNumber = preg_replace('/^0/', '', $phoneNumber);
-  }
-  
-  return $phoneNumber;
-}
-
-
-/**
- * Sauvegarde des numéro avec l'indicatif
- */
-function saveNumeroWithIndicactif () {
-
-}
-
-
-/**
- * Recupere la langue par defaut de civicrm (domain) s'il n'y a pas par defaut c'est fr
- */
-function getCivicrmDefaultDomain () {
-  $domains = \Civi\Api4\Domain::get(FALSE)
-  ->addSelect('locale_custom_strings')
-  ->execute();
-
-  foreach ($domains as $domain) {
-    if ($domain['locale_custom_strings']) {
-      $defaultDomain = end(array_keys($domain['locale_custom_strings']));
-      $defaultDomain = explode('_', $defaultDomain)[0];
-      return $defaultDomain;
-    }  
-  }
-
-  return 'fr';
-
 }
