@@ -224,11 +224,6 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
  * 
  */
 function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
-  
-  //Page de synthèse
-  /* if ($objectName == 'Phone') {
-    
-  } */
 
   //Page d'ajout et de modification
   if (in_array($objectName, ['Individual', 'Organization', 'Phone']) /* && $op == 'edit' */) {
@@ -245,16 +240,12 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
     }else {
       $phone = $params['phone'][1];
       if (isset($phone['phone'])) {
-
         $phoneNumber = removeZeroIfStartWithZero ($phone['phone']);
         $current_indicatif = "0";
-        // dump($params['phone'][1]['phone'], '+' . $indicatif->current_indicatif . ' ' . $phoneNumber);die;
         if (isset($params['phone'][1]['phone'])) {
-          // dump($indicatif, $phoneNumber, '+' , $indicatif->current_indicatif . ' ' . $phoneNumber, ' is v ',  $indicatif->current_indicatif, ' check');
           $params['phone'][1]['phone'] = '+' .  reset($indicatif) . ' ' . $phoneNumber;
         }
       }
-      // dump($params['phone'][1]['phone'], '+' . $indicatif->current_indicatif . ' ' . $phoneNumber);die;
     }
   }
 }
