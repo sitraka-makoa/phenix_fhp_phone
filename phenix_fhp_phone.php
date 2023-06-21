@@ -174,22 +174,23 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
   
-  if (in_array($formName, ['CRM_Contact_Form_Inline_Phone', 'CRM_Contact_Form_Contact'])) {
+  if (in_array($formName, ['CRM_Contact_Form_Inline_Phone', 'CRM_Contact_Form_Contact', 'CRM_Activity_Form_ActivityLinks'])) {
     CRM_PhenixFhpPhone_Utils::addCustomField($form);
+    
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.min.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.min.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.min.js', 100); 
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
+    
+    Civi::resources()->addStyleFile(E::LONG_NAME, 'css/css/intlTelInput.min.css', 100000, 'html-header');
   }
 
-
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.min.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.min.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.min.js', 100); 
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
-  Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
-  
   Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 1500000, 'html-header');
-  Civi::resources()->addStyleFile(E::LONG_NAME, 'css/css/intlTelInput.min.css', 100000, 'html-header');
+  // dump($formName);
 }
 
 /**
@@ -198,13 +199,14 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
  * 
  */
 function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
-
+ 
   //Page d'ajout et de modification
-  if (in_array($objectName, ['Individual', 'Organization', 'Phone']) /* && $op == 'edit' */) {
+  if (in_array($objectName, ['Individual', 'Organization' , 'Phone' ]) /* && $op == 'edit' */) {
     $phoneNumber = '';
     $indicatif = $params['custom_field_for_phone_indicatif_country'];
-    $indicatif = json_decode($indicatif);
     
+    $indicatif = json_decode($indicatif);
+ 
     if (is_array($params['phone']) && sizeof($params['phone']) > 1)  { 
       foreach ($params['phone'] as $phone_key => $phone) {
         $phoneNumber = CRM_PhenixFhpPhone_Utils::removeZeroIfStartWithZero ($phone['phone']);
