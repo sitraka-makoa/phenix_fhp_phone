@@ -38,8 +38,8 @@ CRM.$(function($) {
 
         $('body').on('countrychange','.crm_phone.twelve', function() {
             let className = '';
-            if (jQuery(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
-                className = jQuery(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+            if ($(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                className = $(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
             }
             let itichange = window.intlTelInput(this, {
                 initialCountry: className,
@@ -53,8 +53,8 @@ CRM.$(function($) {
                 if (!$(newInputTel).val().includes('+')) {
 
                     let className = '';
-                    if (jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
-                        className = jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+                    if ($(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                        className = $(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
                     }
                     let itiget = window.intlTelInput(this, {
                         initialCountry: className,
@@ -71,12 +71,12 @@ CRM.$(function($) {
 
          allNumeros = {0:'+33'};
          $('body').on('change','.crm_phone.twelve', function() {
-            // jQuery(jQuery('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').split(': ')[1] + ' ';
+            // $($('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').split(': ')[1] + ' ';
             let currPhone = $(this).val();
            
             let className = '';
-            if (jQuery(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
-                className = jQuery(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+            if ($(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                className = $(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
             }
 
             $(this).attr('value','')
@@ -86,13 +86,13 @@ CRM.$(function($) {
             let valueChange = $(this).val();
             itichange.setNumber(valueChange);
             
-            let inputs = jQuery(".crm_phone.twelve");
+            let inputs = $(".crm_phone.twelve");
             inputs.each(function(el, newInputTel) {
                 if (!$(newInputTel).val().includes('+')) {
 
                     let className = '';
-                    if (jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
-                        className = jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+                    if ($(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                        className = $(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
                     }
                     let itiget = window.intlTelInput(this, {
                         initialCountry: className,
@@ -129,9 +129,10 @@ CRM.$(function($) {
                 let indicatif = matched[0];
                 $(el).html($(el).html().replace(indicatif, '0'));
             }
-            
+            console.log('loader')
             //Permet d'afficher le dropdown du champ telelphone lors du clique sur le drapeau
             $('.crm-summary-phone-block #crm-phone-content').css('overflow', 'inherit')
+            $('.crm-summary-block #crm-phone-content').css('overflow', 'inherit')
         });
 
 
@@ -152,8 +153,8 @@ CRM.$(function($) {
                     if (!$(newInputTel).val().includes('+')) {
 
                         let className = '';
-                        if (jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
-                            className = jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+                        if ($(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                            className = $(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
                         }
                         let itiget = window.intlTelInput(this, {
                             initialCountry: className,
