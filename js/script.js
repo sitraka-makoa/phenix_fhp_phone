@@ -2,6 +2,19 @@
 CRM.$(function($) {
     $(document).ready(function(){
 
+        //Empecher de taper d'autres caractères sur le champ telephone
+        $('body').keypress('.crm_phone.twelve', function(event) {
+            var inputValue = event.which;
+            // Vérifiez si le caractère pressé est un chiffre, "-", "(" ou ")"
+            if (!(inputValue >= 48 && inputValue <= 57) && // Chiffres
+                !(inputValue === 45) && // -
+                !(inputValue === 40) && // (
+                !(inputValue === 41) && // )
+                !(inputValue === 32)) { // Espace
+              event.preventDefault();
+            }
+        });
+
         //Mettre les input de type tél avec le drapeau par defaut
         let inputs = $(".crm_phone.twelve");
         // console.log('woo')
@@ -13,8 +26,8 @@ CRM.$(function($) {
             
             var iti = window.intlTelInput(newInputTel, {
                 initialCountry: "fr",
+                preferredCountries:["fr"]
             })
-            /// TODO PEUT ETRE AJOUTER UNE CONDITION SI LE CHAMP N'EST PAS CACHEE
             if (iti.getSelectedCountryData()) {
                 allNumeros[el] = iti.getSelectedCountryData().dialCode
             }
@@ -25,11 +38,34 @@ CRM.$(function($) {
 
         $('body').on('countrychange','.crm_phone.twelve', function() {
             let className = '';
-            if (jQuery(this).parents('body').find('.iti__selected-flag > .iti__flag')) {
-                className = jQuery(this).parents('body').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+            if (jQuery(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                className = jQuery(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
             }
-
+            let itichange = window.intlTelInput(this, {
+                initialCountry: className,
+                autoPlaceholder:"aggressive",
+                preferredCountries:["fr"]
+            })
             $(this).attr('value','')
+            // itichange.setPlaceholderNumberType("FIXED_LINE");
+
+            inputs.each(function(el, newInputTel) {
+                if (!$(newInputTel).val().includes('+')) {
+
+                    let className = '';
+                    if (jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                        className = jQuery(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+                    }
+                    let itiget = window.intlTelInput(this, {
+                        initialCountry: className,
+                        preferredCountries:["fr"]
+                    })
+                    if (itiget.getSelectedCountryData()) {
+                        allNumeros[el] = itiget.getSelectedCountryData().dialCode
+                    }
+                    $('[name="custom_field_for_phone_indicatif_country"]').val(JSON.stringify(allNumeros));
+                }
+            })
             
          }); 
 
@@ -60,6 +96,7 @@ CRM.$(function($) {
                     }
                     let itiget = window.intlTelInput(this, {
                         initialCountry: className,
+                        preferredCountries:["fr"]
                     })
                     if (itiget.getSelectedCountryData()) {
                         allNumeros[el] = itiget.getSelectedCountryData().dialCode
@@ -79,31 +116,9 @@ CRM.$(function($) {
             let last = 0;
             let itichange = window.intlTelInput(inputs, {
                 initialCountry: 'fr',
+                preferredCountries:["fr"]
             })
         })
-
-
-         $(window).on('load',function(){
-            // let value = $('.page-civicrm-contact-add .crm_phone.twelve').val();
-            // var indicatif = '+33 ';
-            // let fieldPhone = $('.page-civicrm-contact-add .crm_phone.twelve');
-
-
-            //Met la valeur par defaut dans la page update
-            jQuery('.crm_phone.twelve').each(function(el,id) {
-                let defaultVal = jQuery(id).attr('value');
-                if (defaultVal) {
-                    // const regex = /\+[0-9]+ /;
-                    // const matched = defaultVal.match(regex);
-                    // let indicatif = matched[0];
-                    // defaultVal = defaultVal.replace(indicatif, 0);
-                    // defaultVal = defaultVal.replace('00', 0);
-                    // defaultVal = indicatif + defaultVal;
-                    // let val = jQuery(id).val(defaultVal);
-                }
-            })
-        }) 
-
 
 
         //Page de synthese pour formattage numéro
@@ -142,6 +157,8 @@ CRM.$(function($) {
                         }
                         let itiget = window.intlTelInput(this, {
                             initialCountry: className,
+                            preferredCountries:["fr"]
+                            
                         })
                         if (itiget.getSelectedCountryData()) {
                             currval = $(newInputTel).val().trim().replace(/^0/, ''); // Supprimer les espaces de début et de fin, puis retirer le zéro initial
