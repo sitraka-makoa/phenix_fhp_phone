@@ -3,7 +3,7 @@ CRM.$(function($) {
     $(document).ready(function(){
 
         //Empecher de taper d'autres caractères sur le champ telephone
-        $('body').keypress('.crm_phone.twelve', function(event) {
+        $('body').on('keypress','.crm_phone.twelve', function(event) {
             var inputValue = event.which;
             // Vérifiez si le caractère pressé est un chiffre, "-", "(" ou ")"
             if (!(inputValue >= 48 && inputValue <= 57) && // Chiffres
