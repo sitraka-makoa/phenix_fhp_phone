@@ -3,7 +3,7 @@ CRM.$(function($) {
     $(document).ready(function(){
 
         //Empecher de taper d'autres caractères sur le champ telephone
-       /*  $('body').keypress('.crm_phone.twelve', function(event) {
+        $('body').on('keypress','.crm_phone.twelve', function(event) {
             var inputValue = event.which;
             // Vérifiez si le caractère pressé est un chiffre, "-", "(" ou ")"
             if (!(inputValue >= 48 && inputValue <= 57) && // Chiffres
@@ -13,7 +13,7 @@ CRM.$(function($) {
                 !(inputValue === 32)) { // Espace
               event.preventDefault();
             }
-        }); */
+        });
 
         //Mettre les input de type tél avec le drapeau par defaut
         let inputs = $(".crm_phone.twelve");
