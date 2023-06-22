@@ -177,6 +177,8 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
   if (in_array($formName, ['CRM_Contact_Form_Inline_Phone', 'CRM_Contact_Form_Contact', 'CRM_Activity_Form_ActivityLinks'])) {
     CRM_PhenixFhpPhone_Utils::addCustomField($form);
     
+    CRM_Core_Resources::singleton()->addScriptUrl('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js');
+
     Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
     Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.min.js', 100);
     Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.js', 100);
