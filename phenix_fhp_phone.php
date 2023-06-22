@@ -174,7 +174,7 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  */
 function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
   
-  if (in_array($formName, ['CRM_Contact_Form_Inline_Phone', 'CRM_Contact_Form_Contact', 'CRM_Activity_Form_ActivityLinks'])) {
+  if (in_array($formName, [/* 'CRM_Contact_Form_Inline_Phone', */ 'CRM_Contact_Form_Contact', 'CRM_Activity_Form_ActivityLinks'])) {
     CRM_PhenixFhpPhone_Utils::addCustomField($form);
     
     Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
