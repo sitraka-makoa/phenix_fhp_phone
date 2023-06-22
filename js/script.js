@@ -3,7 +3,7 @@ CRM.$(function($) {
     $(document).ready(function(){
 
         //Empecher de taper d'autres caractères sur le champ telephone
-        $('body').keypress('.crm_phone.twelve', function(event) {
+       /*  $('body').keypress('.crm_phone.twelve', function(event) {
             var inputValue = event.which;
             // Vérifiez si le caractère pressé est un chiffre, "-", "(" ou ")"
             if (!(inputValue >= 48 && inputValue <= 57) && // Chiffres
@@ -13,7 +13,7 @@ CRM.$(function($) {
                 !(inputValue === 32)) { // Espace
               event.preventDefault();
             }
-        });
+        }); */
 
         //Mettre les input de type tél avec le drapeau par defaut
         let inputs = $(".crm_phone.twelve");
@@ -122,7 +122,7 @@ CRM.$(function($) {
 
 
         //Page de synthese pour formattage numéro
-        jQuery('.crm-summary-row .crm-content.crm-contact_phone').each(function(id, el) {
+        $('.crm-summary-row .crm-content.crm-contact_phone').each(function(id, el) {
             const regex = /\+[0-9]+ /;
             const matched = $(el).html().match(regex);
             if (matched) {
@@ -173,7 +173,7 @@ CRM.$(function($) {
 
         })
 
-        jQuery('.iti.iti--show-flags .crm_phone.twelve').css('padding-left', '52px');
+        $('.iti.iti--show-flags .crm_phone.twelve').css('padding-left', '52px');
     })
 
     // jQuery('#contact-summary .crm-content.crm-contact_phone').text(jQuery('#contact-summary .crm-content.crm-contact_phone').text().replace(/\+\d+\s/g, ''));
