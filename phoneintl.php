@@ -1,8 +1,8 @@
 <?php
 
-require_once 'phenix_fhp_phone.civix.php';
+require_once 'phoneintl.civix.php';
 // phpcs:disable
-use CRM_PhenixFhpPhone_ExtensionUtil as E;
+use CRM_Phoneintl_ExtensionUtil as E;
 // phpcs:enable
 
 /**
@@ -10,8 +10,8 @@ use CRM_PhenixFhpPhone_ExtensionUtil as E;
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/
  */
-function phenix_fhp_phone_civicrm_config(&$config) {
-  _phenix_fhp_phone_civix_civicrm_config($config);
+function phoneintl_civicrm_config(&$config) {
+  _phoneintl_civix_civicrm_config($config);
 }
 
 /**
@@ -19,8 +19,8 @@ function phenix_fhp_phone_civicrm_config(&$config) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_xmlMenu
  */
-function phenix_fhp_phone_civicrm_xmlMenu(&$files) {
-  _phenix_fhp_phone_civix_civicrm_xmlMenu($files);
+function phoneintl_civicrm_xmlMenu(&$files) {
+  _phoneintl_civix_civicrm_xmlMenu($files);
 }
 
 /**
@@ -28,8 +28,8 @@ function phenix_fhp_phone_civicrm_xmlMenu(&$files) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_install
  */
-function phenix_fhp_phone_civicrm_install() {
-  _phenix_fhp_phone_civix_civicrm_install();
+function phoneintl_civicrm_install() {
+  _phoneintl_civix_civicrm_install();
 }
 
 /**
@@ -37,8 +37,8 @@ function phenix_fhp_phone_civicrm_install() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postInstall
  */
-function phenix_fhp_phone_civicrm_postInstall() {
-  _phenix_fhp_phone_civix_civicrm_postInstall();
+function phoneintl_civicrm_postInstall() {
+  _phoneintl_civix_civicrm_postInstall();
 }
 
 /**
@@ -46,8 +46,8 @@ function phenix_fhp_phone_civicrm_postInstall() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_uninstall
  */
-function phenix_fhp_phone_civicrm_uninstall() {
-  _phenix_fhp_phone_civix_civicrm_uninstall();
+function phoneintl_civicrm_uninstall() {
+  _phoneintl_civix_civicrm_uninstall();
 }
 
 /**
@@ -55,8 +55,8 @@ function phenix_fhp_phone_civicrm_uninstall() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_enable
  */
-function phenix_fhp_phone_civicrm_enable() {
-  _phenix_fhp_phone_civix_civicrm_enable();
+function phoneintl_civicrm_enable() {
+  _phoneintl_civix_civicrm_enable();
 }
 
 /**
@@ -64,8 +64,8 @@ function phenix_fhp_phone_civicrm_enable() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_disable
  */
-function phenix_fhp_phone_civicrm_disable() {
-  _phenix_fhp_phone_civix_civicrm_disable();
+function phoneintl_civicrm_disable() {
+  _phoneintl_civix_civicrm_disable();
 }
 
 /**
@@ -73,8 +73,8 @@ function phenix_fhp_phone_civicrm_disable() {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_upgrade
  */
-function phenix_fhp_phone_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _phenix_fhp_phone_civix_civicrm_upgrade($op, $queue);
+function phoneintl_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
+  return _phoneintl_civix_civicrm_upgrade($op, $queue);
 }
 
 /**
@@ -85,8 +85,8 @@ function phenix_fhp_phone_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_managed
  */
-function phenix_fhp_phone_civicrm_managed(&$entities) {
-  _phenix_fhp_phone_civix_civicrm_managed($entities);
+function phoneintl_civicrm_managed(&$entities) {
+  _phoneintl_civix_civicrm_managed($entities);
 }
 
 /**
@@ -96,8 +96,8 @@ function phenix_fhp_phone_civicrm_managed(&$entities) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_caseTypes
  */
-function phenix_fhp_phone_civicrm_caseTypes(&$caseTypes) {
-  _phenix_fhp_phone_civix_civicrm_caseTypes($caseTypes);
+function phoneintl_civicrm_caseTypes(&$caseTypes) {
+  _phoneintl_civix_civicrm_caseTypes($caseTypes);
 }
 
 /**
@@ -107,9 +107,9 @@ function phenix_fhp_phone_civicrm_caseTypes(&$caseTypes) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_angularModules
  */
-function phenix_fhp_phone_civicrm_angularModules(&$angularModules) {
+function phoneintl_civicrm_angularModules(&$angularModules) {
   // Auto-add module files from ./ang/*.ang.php
-  _phenix_fhp_phone_civix_civicrm_angularModules($angularModules);
+  _phoneintl_civix_civicrm_angularModules($angularModules);
 }
 
 /**
@@ -117,8 +117,8 @@ function phenix_fhp_phone_civicrm_angularModules(&$angularModules) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterSettingsFolders
  */
-function phenix_fhp_phone_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _phenix_fhp_phone_civix_civicrm_alterSettingsFolders($metaDataFolders);
+function phoneintl_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
+  _phoneintl_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 /**
@@ -128,15 +128,15 @@ function phenix_fhp_phone_civicrm_alterSettingsFolders(&$metaDataFolders = NULL)
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
  */
-function phenix_fhp_phone_civicrm_entityTypes(&$entityTypes) {
-  _phenix_fhp_phone_civix_civicrm_entityTypes($entityTypes);
+function phoneintl_civicrm_entityTypes(&$entityTypes) {
+  _phoneintl_civix_civicrm_entityTypes($entityTypes);
 }
 
 /**
  * Implements hook_civicrm_themes().
  */
-function phenix_fhp_phone_civicrm_themes(&$themes) {
-  _phenix_fhp_phone_civix_civicrm_themes($themes);
+function phoneintl_civicrm_themes(&$themes) {
+  _phoneintl_civix_civicrm_themes($themes);
 }
 
 // --- Functions below this ship commented out. Uncomment as required. ---
@@ -146,7 +146,7 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_preProcess
  */
-//function phenix_fhp_phone_civicrm_preProcess($formName, &$form) {
+//function phoneintl_civicrm_preProcess($formName, &$form) {
 //
 //}
 
@@ -155,8 +155,8 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_navigationMenu
  */
-//function phenix_fhp_phone_civicrm_navigationMenu(&$menu) {
-//  _phenix_fhp_phone_civix_insert_navigation_menu($menu, 'Mailings', [
+//function phoneintl_civicrm_navigationMenu(&$menu) {
+//  _phoneintl_civix_insert_navigation_menu($menu, 'Mailings', [
 //    'label' => E::ts('New subliminal message'),
 //    'name' => 'mailing_subliminal_message',
 //    'url' => 'civicrm/mailing/subliminal',
@@ -164,7 +164,7 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
 //    'operator' => 'OR',
 //    'separator' => 0,
 //  ]);
-//  _phenix_fhp_phone_civix_navigationMenu($menu);
+//  _phoneintl_civix_navigationMenu($menu);
 //}
 
 
@@ -172,10 +172,10 @@ function phenix_fhp_phone_civicrm_themes(&$themes) {
  * Implements hook_civicrm_tabset().
  * Ajout script et css
  */
-function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
+function phoneintl_civicrm_buildForm($formName, &$form) {
   
   if (in_array($formName, ['CRM_Contact_Form_Inline_Phone', 'CRM_Contact_Form_Contact', 'CRM_Activity_Form_ActivityLinks'])) {
-    CRM_PhenixFhpPhone_Utils::addCustomField($form);
+    CRM_Phoneintl_Utils::addCustomField($form);
     
     CRM_Core_Resources::singleton()->addScriptUrl('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js');
 
@@ -200,7 +200,7 @@ function phenix_fhp_phone_civicrm_buildForm($formName, &$form) {
  * Sert à modifier la valeur du numéro de tél avant d'enregistrer dans la base (ajout indicatif)
  * 
  */
-function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
+function phoneintl_civicrm_pre($op, $objectName, $id, &$params) {
  
   //Page d'ajout et de modification
   if (in_array($objectName, ['Individual', 'Organization' , 'Phone' ]) /* && $op == 'edit' */) {
@@ -211,14 +211,14 @@ function phenix_fhp_phone_civicrm_pre($op, $objectName, $id, &$params) {
  
     if (is_array($params['phone']) && sizeof($params['phone']) > 1)  { 
       foreach ($params['phone'] as $phone_key => $phone) {
-        $phoneNumber = CRM_PhenixFhpPhone_Utils::removeZeroIfStartWithZero ($phone['phone']);
+        $phoneNumber = CRM_Phoneintl_Utils::removeZeroIfStartWithZero ($phone['phone']);
         $current_indicatif = $phone_key - 1;
         $params['phone'][$phone_key]['phone'] = '+' . $indicatif->$current_indicatif . ' ' . $phoneNumber;
       }
     }else {
       $phone = $params['phone'][1];
       if (isset($phone['phone'])) {
-        $phoneNumber = CRM_PhenixFhpPhone_Utils::removeZeroIfStartWithZero ($phone['phone']);
+        $phoneNumber = CRM_Phoneintl_Utils::removeZeroIfStartWithZero ($phone['phone']);
         $current_indicatif = "0";
         if (isset($params['phone'][1]['phone'])) {
           $params['phone'][1]['phone'] = '+' .  reset($indicatif) . ' ' . $phoneNumber;

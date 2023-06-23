@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<extension key="phenix_fhp_phone" type="module">
-  <file>phenix_fhp_phone</file>
-  <name>Customize phone display and storage</name>
+<extension key="phoneintl" type="module">
+  <file>phoneintl</file>
+  <name>Customize field phone display and storage</name>
   <description></description>
   <license>AGPL-3.0</license>
   <maintainer>
@@ -25,7 +25,7 @@
     <psr4 prefix="Civi\" path="Civi"/>
   </classloader>
   <civix>
-    <namespace>CRM/PhenixFhpPhone</namespace>
-    <angularModule>crmPhenixFhpPhone</angularModule>
+    <namespace>CRM/Phoneintl</namespace>
+    <angularModule>crmPhoneintl</angularModule>
   </civix>
 </extension>

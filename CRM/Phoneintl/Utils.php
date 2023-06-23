@@ -1,8 +1,8 @@
 <?php
 
-use CRM_PhenixFhpPhone_ExtensionUtil as E;
+use CRM_Phoneintl_ExtensionUtil as E;
 
-class CRM_PhenixFhpPhone_Utils {
+class CRM_Phoneintl_Utils {
 
 
 /**
