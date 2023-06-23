@@ -73,6 +73,9 @@ CRM.$(function($) {
          }); 
 
 
+        $('body #crm-phone-content').on('keyup','.crm_phone.twelve', function() {
+            checkFrenchNumber  (this)
+        })
         $('body #phone-block').on('keyup','.crm_phone.twelve', function() {
             checkFrenchNumber  (this)
         })
