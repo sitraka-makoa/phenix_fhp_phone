@@ -15,6 +15,9 @@ CRM.$(function($) {
             }
         });
 
+        //page synthese lors du click sur le drapeau se ne s'affiche pas à cause du overflow hidden donc on le replace par inherit
+        $('body #crm-phone-content').css('overflow', 'inherit')
+
         //Mettre les input de type tél avec le drapeau par defaut
         let inputs = $(".crm_phone.twelve");
         // console.log('woo')
@@ -69,6 +72,14 @@ CRM.$(function($) {
             
          }); 
 
+
+        $('body #phone-block').on('keyup','.crm_phone.twelve', function() {
+            checkFrenchNumber  (this)
+        })
+        $('body .contact_information-section').on('keyup','.crm_phone.twelve', function() {
+            checkFrenchNumber  (this)
+        })
+
          allNumeros = {0:'+33'};
          $('body').on('change','.crm_phone.twelve', function() {
             // $($('#Phone_Block_1 .iti__selected-flag')[4]).attr('title').split(': ')[1] + ' ';
@@ -78,6 +89,8 @@ CRM.$(function($) {
             if ($(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
                 className = $(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
             }
+
+            checkFrenchNumber  (this)
 
             $(this).attr('value','')
             let itichange = window.intlTelInput(this, {
@@ -129,7 +142,7 @@ CRM.$(function($) {
                 let indicatif = matched[0];
                 $(el).html($(el).html().replace(indicatif, '0'));
             }
-            console.log('loader')
+
             //Permet d'afficher le dropdown du champ telelphone lors du clique sur le drapeau
             $('.crm-summary-phone-block #crm-phone-content').css('overflow', 'inherit')
             $('.crm-summary-block #crm-phone-content').css('overflow', 'inherit')
@@ -181,3 +194,27 @@ CRM.$(function($) {
 
 });
   
+/**
+ * check le numéro si français ça doit contenir 10 chiffres
+ * 
+ */
+ function checkFrenchNumber  (element) {
+
+    let className = '';
+    if ($(element).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+        className = $(element).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+    }
+
+    if (className == 'fr') {
+        //Pour les numéro français c'est 10 chiffres
+        var regex = /\d/g  // Expression régulière pour un numéro de téléphone à 10 chiffres
+        let numero = jQuery(element).val();
+        if (numero.match(regex)&& numero.match(regex).length === 10) {
+            jQuery(element).css('border-color', '#c2cfd8');
+            // Ajoutez ici votre code à exécuter si le numéro est valide
+        }else {
+            jQuery(element).css('border-color', 'red');
+        }
+    }
+    
+}
