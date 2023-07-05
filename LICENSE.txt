@@ -1,4 +1,4 @@
-Package: phenix_fhp_phone
+Package: phoneintl
 Copyright (C) 2023, Usha Matisson <matisson@makoa.fr>
 Licensed under the GNU Affero Public License 3.0 (below).
 

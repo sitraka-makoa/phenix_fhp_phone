@@ -1,4 +1,4 @@
-# phenix_fhp_phone
+# phoneintl
 
 ![Screenshot](/images/screenshot.png)
 
@@ -22,7 +22,7 @@ install it with the command-line tool [cv](https://github.com/civicrm/cv).
 
 ```bash
 cd <extension-dir>
-cv dl phenix_fhp_phone@https://github.com/FIXME/phenix_fhp_phone/archive/master.zip
+cv dl phoneintl@https://github.com/FIXME/phoneintl/archive/master.zip
 ```
 
 ## Installation (CLI, Git)
@@ -31,8 +31,8 @@ Sysadmins and developers may clone the [Git](https://en.wikipedia.org/wiki/Git) 
 install it with the command-line tool [cv](https://github.com/civicrm/cv).
 
 ```bash
-git clone https://github.com/FIXME/phenix_fhp_phone.git
-cv en phenix_fhp_phone
+git clone https://github.com/FIXME/phoneintl.git
+cv en phoneintl
 ```
 
 ## Getting Started
