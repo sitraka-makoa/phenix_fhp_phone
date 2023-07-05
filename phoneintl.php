@@ -209,19 +209,22 @@ function phoneintl_civicrm_pre($op, $objectName, $id, &$params) {
     
     $indicatif = json_decode($indicatif);
  
-    if (is_array($params['phone']) && sizeof($params['phone']) > 1)  { 
-      foreach ($params['phone'] as $phone_key => $phone) {
-        $phoneNumber = CRM_Phoneintl_Utils::removeZeroIfStartWithZero ($phone['phone']);
-        $current_indicatif = $phone_key - 1;
-        $params['phone'][$phone_key]['phone'] = '+' . $indicatif->$current_indicatif . ' ' . $phoneNumber;
-      }
-    }else {
-      $phone = $params['phone'][1];
-      if (isset($phone['phone'])) {
-        $phoneNumber = CRM_Phoneintl_Utils::removeZeroIfStartWithZero ($phone['phone']);
-        $current_indicatif = "0";
-        if (isset($params['phone'][1]['phone'])) {
-          $params['phone'][1]['phone'] = '+' .  reset($indicatif) . ' ' . $phoneNumber;
+    //ajout condition si le nombre de chiffre dans le numéro est inférieur à 7
+    if(strlen($params['phone']) > 7) {
+      if (is_array($params['phone']) && sizeof($params['phone']) > 1)  { 
+        foreach ($params['phone'] as $phone_key => $phone) {
+          $phoneNumber = CRM_Phoneintl_Utils::removeZeroIfStartWithZero ($phone['phone']);
+          $current_indicatif = $phone_key - 1;
+          $params['phone'][$phone_key]['phone'] = '+' . $indicatif->$current_indicatif . ' ' . $phoneNumber;
+        }
+      }else {
+        $phone = $params['phone'][1];
+        if (isset($phone['phone'])) {
+          $phoneNumber = CRM_Phoneintl_Utils::removeZeroIfStartWithZero ($phone['phone']);
+          $current_indicatif = "0";
+          if (isset($params['phone'][1]['phone'])) {
+            $params['phone'][1]['phone'] = '+' .  reset($indicatif) . ' ' . $phoneNumber;
+          }
         }
       }
     }
