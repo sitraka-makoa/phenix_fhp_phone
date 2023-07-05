@@ -51,14 +51,15 @@ CRM.$(function($) {
             })
             $(this).attr('value','')
             // itichange.setPlaceholderNumberType("FIXED_LINE");
-
-            inputs.each(function(el, newInputTel) {
+            
+            $(".crm_phone.twelve").each(function(el, newInputTel) {
                 if (!$(newInputTel).val().includes('+')) {
-
+                    
                     let className = '';
-                    if ($(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
-                        className = $(newInputTel).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
+                    if ($(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag')) {
+                        className = $(this).parents('.iti.iti--allow-dropdown').find('.iti__selected-flag > .iti__flag').last().attr('class').split('iti__')[2];
                     }
+                    console.log('country change ree...', className)
                     let itiget = window.intlTelInput(this, {
                         initialCountry: className,
                         preferredCountries:["fr"]
