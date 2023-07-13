@@ -192,8 +192,30 @@ function phoneintl_civicrm_buildForm($formName, &$form) {
   }
 
   Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 1500000, 'html-header');
-  // dump($formName);
 }
+
+/**
+ * Implements hook_civicrm_pageRun().
+ */
+function phoneintl_civicrm_pageRun(&$page) {
+  // Check if the current page is the search page.
+
+  if ($page instanceof CRM_Search_Page_Search ) {
+    CRM_Core_Resources::singleton()->addScriptUrl('https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js');
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/data.min.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput-jquery.min.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/intlTelInput.min.js', 100); 
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/js/utils.js', 100);
+    Civi::resources()->addScriptFile(E::LONG_NAME,'js/script.js', 1000);
+    Civi::resources()->addStyleFile(E::LONG_NAME, 'css/css/intlTelInput.min.css', 100000, 'html-header');
+    Civi::resources()->addStyleFile(E::LONG_NAME, 'css/style.css', 1500000, 'html-header');
+  }
+}
+
+
 
 /**
  * hook_civicrm_pre
