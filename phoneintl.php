@@ -232,7 +232,7 @@ function phoneintl_civicrm_pre($op, $objectName, $id, &$params) {
     $indicatif = json_decode($indicatif);
  
     //ajout condition si le nombre de chiffre dans le numéro est inférieur à 7
-    if($params['phone'] && (strlen($params['phone']) > 7)) {
+    if(isset($params['phone']) && (strlen($params['phone']) > 7)) {
       if (is_array($params['phone']) && sizeof($params['phone']) > 1)  { 
         foreach ($params['phone'] as $phone_key => $phone) {
           $phoneNumber = CRM_Phoneintl_Utils::removeZeroIfStartWithZero ($phone['phone']);
